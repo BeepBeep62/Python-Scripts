@@ -1,0 +1,8 @@
+year = input("enter year: ")
+month = input("enter month: ")
+day = input("enter day: ")
+print("converting data..")
+print(year)
+print(month)
+print(day)
+input("press enter to exit, thanks for testing!!!")
