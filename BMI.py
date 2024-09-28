@@ -16,4 +16,4 @@ elif BMI >= 18.5 and BMI <= 24.9:
 elif BMI >= 25 and BMI <= 29.9:
  print("overweight")
 else:
- print("obese")
+ print("holy obesity")
