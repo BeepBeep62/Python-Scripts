@@ -1,5 +1,5 @@
 import turtle
-turtle.Screen().setup(600,600)
+turtle.Screen().setup(600,00)
 turtle.Screen().bgcolor("purple")
 turtle.color("cyan")
 Pen = turtle.Turtle()

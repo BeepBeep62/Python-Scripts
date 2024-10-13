@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Madness</title>
+    <style>
+        body {
+            font-family: Lora, serif;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .menu {
+            background: #3f3f3f;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            position: absolute;
+        }
+
+        h1 {
+            color: #ffffff;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #gameCanvas {
+            display: none;
+            border: 2px solid #ffffff;
+            background-color: #000000;
+        }
+
+        #score {
+            color: #ffffff;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu">
+        <h1>Meme Madness</h1>
+        <button onclick="startGame()">Play</button>
+        <button onclick="showCredits()">Credits</button>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="score">Points: 0</div>
+
+    <script>
+        let canvas, ctx;
+        let player;
+        let memes = [];
+        let cringeItems = [];
+        let points = 0;
+        let gameInterval;
+        let timer;
+
+        function startGame() {
+            document.querySelector('.menu').style.display = 'none';
+            canvas = document.getElementById("gameCanvas");
+            canvas.style.display = 'block';
+            ctx = canvas.getContext("2d");
+
+            player = {
+                x: canvas.width / 2 - 15,
+                y: canvas.height - 30,
+                width: 30,
+                height: 30,
+                dx: 10
+            };
+
+            // Start game loop and item spawn
+            gameInterval = setInterval(gameLoop, 100);
+            document.addEventListener('keydown', movePlayer);
+            spawnMemes();
+            spawnCringeItems();
+
+            // Timer for 30 seconds
+            timer = 30;
+            setInterval(function () {
+                if (timer > 0) {
+                    timer--;
+                } else {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function movePlayer(e) {
+            if (e.key === 'a' || e.key === 'A') {
+                if (player.x > 0) {
+                    player.x -= player.dx;
+                }
+            } else if (e.key === 'd' || e.key === 'D') {
+                if (player.x + player.width < canvas.width) {
+                    player.x += player.dx;
+                }
+            }
+        }
+
+        function spawnMemes() {
+            const meme = {
+                x: Math.random() * (canvas.width - 20),
+                y: 0,
+                width: 20,
+                height: 20
+            };
+            memes.push(meme);
+            setTimeout(spawnMemes, 1000); // Spawn a meme every second
+        }
+
+        function spawnCringeItems() {
+            const cringe = {
+                x: Math.random() * (canvas.width - 20),
+                y: 0,
+                width: 20,
+                height: 20
+            };
+            cringeItems.push(cringe);
+            setTimeout(spawnCringeItems, 2000); // Spawn cringe items every 2 seconds
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            drawMemes();
+            drawCringeItems();
+            updateMemes();
+            updateCringeItems();
+            checkCollision();
+            drawScore();
+            drawTimer();
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = "#4CAF50"; // Color for the player
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function drawMemes() {
+            ctx.fillStyle = "#FFD700"; // Color for memes
+            memes.forEach(meme => {
+                ctx.fillRect(meme.x, meme.y, meme.width, meme.height);
+            });
+        }
+
+        function drawCringeItems() {
+            ctx.fillStyle = "#FF4500"; // Color for cringe items
+            cringeItems.forEach(cringe => {
+                ctx.fillRect(cringe.x, cringe.y, cringe.width, cringe.height);
+            });
+        }
+
+        function updateMemes() {
+            memes.forEach(meme => {
+                meme.y += 5; // Meme falling speed
+            });
+            memes = memes.filter(meme => meme.y < canvas.height);
+        }
+
+        function updateCringeItems() {
+            cringeItems.forEach(cringe => {
+                cringe.y += 5; // Cringe falling speed
+            });
+            cringeItems = cringeItems.filter(cringe => cringe.y < canvas.height);
+        }
+
+        function checkCollision() {
+            memes.forEach((meme, index) => {
+                if (meme.y + meme.height > player.y &&
+                    meme.y < player.y + player.height &&
+                    meme.x + meme.width > player.x &&
+                    meme.x < player.x + player.width) {
+                    points++; // Increment points on collecting meme
+                    memes.splice(index, 1); // Remove meme
+                }
+            });
+
+            cringeItems.forEach((cringe, index) => {
+                if (cringe.y + cringe.height > player.y &&
+                    cringe.y < player.y + player.height &&
+                    cringe.x + cringe.width > player.x &&
+                    cringe.x < player.x + player.width) {
+                    points--; // Decrement points on collecting cringe
+                    cringeItems.splice(index, 1); // Remove cringe item
+                }
+            });
+        }
+
+        function drawScore() {
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "20px Arial";
+            ctx.fillText("Points: " + points, 10, 20);
+        }
+
+        function drawTimer() {
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "20px Arial";
+            ctx.fillText("Time: " + timer, canvas.width - 100, 20);
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            alert("Game Over! Your score: " + points);
+            document.location.reload();
+        }
+
+        function showCredits() {
+            alert("Every asset was.. ahem.. borrowed.. from ChatGPT!");
+        }
+    </script>
+
+</body>
+
+</html>

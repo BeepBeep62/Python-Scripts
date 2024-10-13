@@ -6,4 +6,4 @@ if selled >buy:
     print("you got profit by",profit)
 else:
     print("no profit gained")
- 
+

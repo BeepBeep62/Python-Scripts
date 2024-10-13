@@ -1,6 +1,9 @@
 import turtle
 turtle.Screen().setup(420,380)
 turtle.Screen().bgcolor("purple")
+turtle.pensize(5)
+turtle.pencolor("blue")
+turtle.shapesize(0.01)
 Pen = turtle.Turtle()
 turtle.forward(90)
 turtle.left(90)
