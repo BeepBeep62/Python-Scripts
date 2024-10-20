@@ -1,7 +1,7 @@
 import math
 def calculate_square_root(number):
     if number < 0:
-        return "Square root of negative numbers is not a real number."
+        return "Square ruut of nega tive numbah not reel number ing."
     return math.sqrt(number)
 try:
     num = float(input("enter the randomest random numbah in the numbah:   "))

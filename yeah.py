@@ -1,4 +1,5 @@
 import turtle
+turtle.speed(100)
 turtle.Screen().setup(420,380)
 turtle.Screen().bgcolor("dark blue")
 turtle.color("light blue")
