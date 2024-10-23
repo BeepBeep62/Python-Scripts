@@ -1,3 +1,3 @@
 import random
-year = random.randint(2000,2021)
+year = random.randint(1900,2021)
 print(year)
