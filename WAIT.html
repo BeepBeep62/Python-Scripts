@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email to Username Generator</title>
+    <style>
+        /* General reset for styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #333;
+        }
+
+        /* Card styling for the form */
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Input styling */
+        input[type="email"] {
+            width: 80%;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        /* Button styling */
+        button {
+            background-color: #4e54c8;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6c70f4;
+        }
+
+        /* Result styling */
+        .result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: #4e54c8;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Get Your Username</h2>
+        <p>Enter your email, and we'll generate your username.</p>
+
+        <!-- Email Input Form -->
+        <input type="email" id="emailInput" placeholder="Enter your email" required>
+
+        <!-- Button to trigger username generation -->
+        <button onclick="generateUsername()">Get Username</button>
+
+        <!-- Placeholder for the username output -->
+        <div class="result" id="usernameResult"></div>
+    </div>
+
+    <script>
+        function generateUsername() {
+            // Get the email input value
+            const email = document.getElementById('emailInput').value;
+
+            // Check if the email format is valid
+            if (!email || !email.includes('@')) {
+                document.getElementById('usernameResult').innerText = "Please enter a valid email.";
+                return;
+            }
+
+            // Extract the part before the '@' symbol to use as username
+            const username = email.split('@')[0];
+
+            // Display the generated username
+            document.getElementById('usernameResult').innerText = `Your username is: ${username}`;
+        }
+    </script>
+
+</body>
+
+</html>
