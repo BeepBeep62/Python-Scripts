@@ -13,7 +13,7 @@ turtle.Screen().bgcolor(bg)
 turtle.Screen().setup(620,580)
 turtle.color(color)
 turtle.shapesize(1)
-turtle.pensize(2)
+turtle.color = color
 for i in range(times):
     turtle.forward(100)
     turtle.circle(50)
